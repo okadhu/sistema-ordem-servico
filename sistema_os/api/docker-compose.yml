@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    container_name: os-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASS: alunolab       # <---- SENHA CERTA
+      DB_NAME: os_agricola
+      DB_PORT: 3306
+    depends_on:
+      - mysql
+    command: ["npm", "run", "dev"]
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  mysql:
+    image: mysql:8.0
+    container_name: os-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: alunolab     # <---- SENHA CERTA
+      MYSQL_DATABASE: os_agricola
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user123
+    ports:
+      - "3307:3306"     # <---- ALTERADO para evitar conflito
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: os-phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: alunolab     # <---- SENHA CERTA
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:

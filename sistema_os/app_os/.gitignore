@@ -1,0 +1,27 @@
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Flutter / Dart
+.build/
+.dart_tool/
+.pub-cache/
+.packages
+
+# Java
+*.class
+
+# VS Code
+.vscode/
+
+# Docker
+*.log
+
+
+
+build/
+        
